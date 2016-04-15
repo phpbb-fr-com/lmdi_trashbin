@@ -1,0 +1,15 @@
+services:
+     lmdi.trashbin.listener:
+        class: lmdi\trashbin\event\listener
+        arguments:
+            - '@dbal.conn'
+            - '@config'
+            - '@template'
+            - '@cache'
+            - '@user'
+            - '@request'
+            - '@auth'
+            - '%core.root_path%'
+            - '%core.php_ext%'
+        tags:
+            - { name: event.listener }

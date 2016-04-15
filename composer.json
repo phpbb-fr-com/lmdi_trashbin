@@ -1,0 +1,36 @@
+{
+	"name": "lmdi/trashbin",
+	"type": "phpbb-extension",
+	"description": "Trashbin for phpBB 3.1",
+	"homepage": "http://www.insecte.org/ext/readme.txt",
+	"version": "1.0.0",
+	"time": "2016-4-15",
+	"license": "GPL-2.0",
+	"authors": 
+	[	
+		{
+			"name": "Pierre Duhem",
+			"email": "pierre@duhem.com",
+			"homepage": "http://www.insecte.org/ext/readme.txt",
+			"role": "Developer of current extension"
+		},
+		{
+			"name": "brunino",
+			"email": "brunino@altervista.org",
+			"homepage": "http://www.phpbbrevolution.6te.net",
+			"role": "Developer of a former version"
+		}
+	],
+	"require": {
+		"php": ">=5.3.3"
+	},
+	"require-dev": {
+		"phpbb/epv": "dev-master"
+	},
+	"extra": {
+		"display-name": "LMDI Trashbin",
+		"soft-require": {
+			"phpbb/phpbb": ">=3.1.0-RC2,<3.3.*@dev"
+		}
+	}
+}
