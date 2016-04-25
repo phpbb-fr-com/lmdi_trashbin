@@ -79,13 +79,23 @@ class listener implements EventSubscriberInterface
 
 	public function build_url($event)
 	{
-		$params = "f=$this->fid&amp;t=$this->tid&amp;trash=1";
-		$url = append_sid($this->root_path . 'viewtopic.' . $this->phpEx, $params);
+		$target = $this->config['lmdi_trashbin'];
+		if ($target != $this->fid)
+		{
+			$params = "f=$this->fid&amp;t=$this->tid&amp;trash=1";
+			$url = append_sid($this->root_path . 'viewtopic.' . $this->phpEx, $params);
+			$this->template->assign_vars(array(
+				'U_TRASHBIN'	=> $url,
+				'L_TRASHBIN'	=> $this->user->lang['TRASHBIN'],
+				'S_TRASHBIN'	=> true,
+				));
+		}
+		else
+		{
 		$this->template->assign_vars(array(
-			'U_TRASHBIN'	=> $url,
-			'L_TRASHBIN'	=> $this->user->lang['TRASHBIN'],
-			'S_TRASHBIN'	=> true,
+			'S_TRASHBIN'	=> false,
 			));
+		}
 	}
 
 	public function move_topic($event)

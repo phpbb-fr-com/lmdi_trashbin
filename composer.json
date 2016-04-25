@@ -3,8 +3,8 @@
 	"type": "phpbb-extension",
 	"description": "Trashbin for phpBB 3.1",
 	"homepage": "http://www.insecte.org/ext/readme.txt",
-	"version": "1.0.0",
-	"time": "2016-4-15",
+	"version": "1.0.1",
+	"time": "2016-4-25",
 	"license": "GPL-2.0",
 	"authors": 
 	[	
