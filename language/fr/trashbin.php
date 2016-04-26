@@ -25,4 +25,13 @@ $lang = array_merge ($lang, array(
 	'ACP_TRASHBIN_SETTINGS'	=> 'Paramétrage de l\'extension',
 	'ALLOW_FEATURE'		=> 'Sélection du forum de destination',
 	'ALLOW_FEATURE_EXPLAIN'	=> 'Vous pouvez sélectionner ci-contre le forum qui sera la destination des sujets mis à la corbeille.',
+// Duplicated strings
+	'FORUM_PRUNE_SETTINGS'		=> 'Paramètres de délestage de la corbeille',
+	'FORUM_AUTO_PRUNE'			=> 'Activer l’auto-délestage',
+	'FORUM_AUTO_PRUNE_EXPLAIN'	=> 'Déleste le forum des sujets, réglez les paramètres de fréquence/ancienneté ci-dessous.',
+	'AUTO_PRUNE_DAYS'			=> 'Ancienneté des messages délestés automatiquement',
+	'AUTO_PRUNE_DAYS_EXPLAIN'	=> 'Nombre de jours depuis le dernier message avant suppression du sujet.',
+	'AUTO_PRUNE_FREQ'			=> 'Fréquence du délestage automatique',
+	'AUTO_PRUNE_FREQ_EXPLAIN'	=> 'Durée en jours entre les événements de délestage.',
+
 ));

@@ -27,4 +27,12 @@ $lang = array_merge ($lang, array(
 	'ALLOW_FEATURE'		=> 'Target forum selection',
 	'ALLOW_FEATURE_EXPLAIN'	=> 'You may select the forum used as a target of the topic move.',
 
+	'FORUM_PRUNE_SETTINGS'		=> 'Trashbin prune settings',
+	'FORUM_AUTO_PRUNE'			=> 'Enable auto-pruning',
+	'FORUM_AUTO_PRUNE_EXPLAIN'	=> 'Prunes the trashbin of topics, set the frequency/age parameters below.',
+	'AUTO_PRUNE_DAYS'			=> 'Auto-prune post age',
+	'AUTO_PRUNE_DAYS_EXPLAIN'	=> 'Number of days since last post after which topic is removed.',
+	'AUTO_PRUNE_FREQ'			=> 'Auto-prune frequency',
+	'AUTO_PRUNE_FREQ_EXPLAIN'	=> 'Time in days between pruning events.',
+
 ));

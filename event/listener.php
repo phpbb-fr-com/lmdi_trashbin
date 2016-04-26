@@ -113,7 +113,12 @@ class listener implements EventSubscriberInterface
 				if ($this->auth->acl_get('m_delete', $this->fid) or $this->auth->acl_get('m_move', $this->fid))
 				{
 					include($this->root_path . 'includes/functions_admin.' . $this->phpEx);
+					// Moving and resetting the topic_type to normal
 					move_topics(array($this->tid), $target);
+					$sql = 'UPDATE ' . TOPICS_TABLE . ' SET topic_type = 0
+						WHERE topic_id = ' . $this->tid;
+					$this->db->sql_query($sql);
+					// Logging
 					$sql = 'SELECT forum_name FROM '. FORUMS_TABLE .' WHERE forum_id='. $this->fid;
 					$result = $this->db->sql_query($sql);
 					$forum = $this->db->sql_fetchrow($result);
@@ -129,6 +134,7 @@ class listener implements EventSubscriberInterface
 						$this->fid,
 						$target,
 						));
+					// Redirection
 					$params = "f=$target&amp;t=$this->tid";
 					$url = append_sid("{$this->root_path}viewtopic.$this->phpEx", $params);
 					redirect($url);

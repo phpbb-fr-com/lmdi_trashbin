@@ -36,8 +36,23 @@ class trashbin_module {
 			}
 			else
 			{
-				$num = $request->variable ('forum', 0);
-				$config->set ('lmdi_trashbin', $num);
+				$otarget = $config['lmdi_trashbin'];
+				$target = $request->variable ('forum', 0);
+				if ($otarget != $target)
+				{
+					$sql = "UPDATE ". FORUMS_TABLE . "
+						SET enable_prune = 0 
+						WHERE forum_id = '$otarget'";
+					$db->sql_query($sql);
+				}
+				$enable_prune = $request->variable ('enable_prune', 0);
+				$prune_freq = $request->variable ('prune_freq', 0);
+				$prune_days = $request->variable ('prune_days', 0);
+				$sql = "UPDATE ". FORUMS_TABLE . "
+					SET enable_prune = $enable_prune, prune_days = $prune_days, prune_freq = $prune_freq
+					WHERE forum_id = '$target'";
+				$db->sql_query($sql);
+				$config->set ('lmdi_trashbin', $target);
 				$message = $user->lang['CONFIG_UPDATED'];
 				trigger_error($message . adm_back_link ($this->u_action));
 			}
@@ -46,20 +61,29 @@ class trashbin_module {
 		$form_key = 'acp_trashbin_body';
 		add_form_key ($form_key);
 
+		$target = $config['lmdi_trashbin'];
 		$forum_list = $this->get_forum_list();
-		$selected = $config['lmdi_trashbin'];
 		foreach ($forum_list as $row)
 		{
 			$template->assign_block_vars('forums', array(
 				'FORUM_NAME'			=> $row['forum_name'],
 				'FORUM_ID'			=> $row['forum_id'],
-				'SELECTED'			=> (($selected == $row['forum_id']) ? "selected" : "")
+				'SELECTED'			=> (($target == $row['forum_id']) ? "selected" : "")
 			));
 		}
 
+		$sql = "SELECT * from " . FORUMS_TABLE . " WHERE forum_id = '$target'";
+		$result = $db->sql_query($sql);
+		$forum = $db->sql_fetchrow ($result);
+
 		$template->assign_vars (array(
 			'C_ACTION'		=> $action_config,
+			'S_PRUNE_ENABLE'	=> $forum['enable_prune'],
+			'PRUNE_DAYS'		=> $forum['prune_days'],
+			'PRUNE_FREQ'		=> $forum['prune_freq'],
 			));
+		$db->sql_freeresult($result);
+		
 	}
 
 
