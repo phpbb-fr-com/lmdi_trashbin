@@ -41,7 +41,7 @@ class listener implements EventSubscriberInterface
 		\phpbb\user $user,
 		\phpbb\request\request $request,
 		\phpbb\auth\auth $auth,
-		$root_path, 
+		$root_path,
 		$phpEx
 		)
 	{
@@ -65,7 +65,7 @@ class listener implements EventSubscriberInterface
 		);
 	}
 
-	
+
 	public function load_language_on_setup($event)
 	{
 		$lang_set_ext = $event['lang_set_ext'];
@@ -110,7 +110,7 @@ class listener implements EventSubscriberInterface
 			$target = $this->config['lmdi_trashbin'];
 			if ($target != 0 && $this->fid != $target)
 			{
-				if($this->auth->acl_get('m_delete', $this->fid) or $this->auth->acl_get('m_move', $this->fid))
+				if ($this->auth->acl_get('m_delete', $this->fid) or $this->auth->acl_get('m_move', $this->fid))
 				{
 					include($this->root_path . 'includes/functions_admin.' . $this->phpEx);
 					move_topics(array($this->tid), $target);
@@ -120,7 +120,7 @@ class listener implements EventSubscriberInterface
 					$this->db->sql_freeresult($result);
 					$trashbin = $this->user->lang['TRASHBIN'];
 					// See line 578, mcp_main.php
-					$phpbb_log->add('mod', $user_id, $this->user->ip, 'LOG_MOVE', false, 
+					$phpbb_log->add('mod', $user_id, $this->user->ip, 'LOG_MOVE', false,
 						array(
 						'forum_id' => $target,
 						'topic_id' => $this->tid,
