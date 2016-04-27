@@ -24,15 +24,15 @@ $lang = array_merge ($lang, array(
 // ACP
 	'ACP_TRASHBIN_TITLE'	=> 'Board Trashbin',
 	'ACP_TRASHBIN_SETTINGS'	=> 'Settings',
-	'ALLOW_FEATURE'		=> 'Target forum selection',
-	'ALLOW_FEATURE_EXPLAIN'	=> 'You may select the forum used as a target of the topic move.',
+	'ACP_TRASHBIN_ALLOW_FEATURE'		=> 'Target forum selection',
+	'ACP_TRASHBIN_ALLOW_FEATURE_EXPLAIN'	=> 'You may select the forum used as a target of the topic move.',
 
-	'FORUM_PRUNE_SETTINGS'		=> 'Trashbin prune settings',
-	'FORUM_AUTO_PRUNE'			=> 'Enable auto-pruning',
-	'FORUM_AUTO_PRUNE_EXPLAIN'	=> 'Prunes the trashbin of topics, set the frequency/age parameters below.',
-	'AUTO_PRUNE_DAYS'			=> 'Auto-prune post age',
-	'AUTO_PRUNE_DAYS_EXPLAIN'	=> 'Number of days since last post after which topic is removed.',
-	'AUTO_PRUNE_FREQ'			=> 'Auto-prune frequency',
-	'AUTO_PRUNE_FREQ_EXPLAIN'	=> 'Time in days between pruning events.',
+	'ACP_TRASHBIN_FORUM_PRUNE_SETTINGS'		=> 'Trashbin prune settings',
+	'ACP_TRASHBIN_FORUM_AUTO_PRUNE'			=> 'Enable auto-pruning',
+	'ACP_TRASHBIN_FORUM_AUTO_PRUNE_EXPLAIN'	=> 'Prunes the trashbin of topics, set the frequency/age parameters below.',
+	'ACP_TRASHBIN_AUTO_PRUNE_DAYS'			=> 'Auto-prune post age',
+	'ACP_TRASHBIN_AUTO_PRUNE_DAYS_EXPLAIN'	=> 'Number of days since last post after which topic is removed.',
+	'ACP_TRASHBIN_AUTO_PRUNE_FREQ'			=> 'Auto-prune frequency',
+	'ACP_TRASHBIN_AUTO_PRUNE_FREQ_EXPLAIN'	=> 'Time in days between pruning events.',
 
 ));

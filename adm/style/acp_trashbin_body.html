@@ -8,8 +8,8 @@
 <form id="acp_lexicon" method="post" action="{C_ACTION}">
 <fieldset>
 	<dl>
-		<dt><label>{L_ALLOW_FEATURE}{L_COLON}</label><br />
-		<span>{L_ALLOW_FEATURE_EXPLAIN}</span></dt>
+		<dt><label>{L_ACP_TRASHBIN_ALLOW_FEATURE}{L_COLON}</label><br />
+		<span>{L_ACP_TRASHBIN_ALLOW_FEATURE_EXPLAIN}</span></dt>
 		<dd>
 		<select name="forum" id="forum">
 			<!-- BEGIN forums -->
@@ -20,19 +20,19 @@
 	</dl>
 </fieldset>
 <fieldset>
-	<legend>{L_FORUM_PRUNE_SETTINGS}</legend>
+	<legend>{L_ACP_TRASHBIN_FORUM_PRUNE_SETTINGS}</legend>
 <!-- EVENT acp_forums_prune_settings_prepend -->
 <dl>
-	<dt><label for="enable_prune">{L_FORUM_AUTO_PRUNE}{L_COLON}</label><br /><span>{L_FORUM_AUTO_PRUNE_EXPLAIN}</span></dt>
+	<dt><label for="enable_prune">{L_ACP_TRASHBIN_FORUM_AUTO_PRUNE}{L_COLON}</label><br /><span>{L_ACP_TRASHBIN_FORUM_AUTO_PRUNE_EXPLAIN}</span></dt>
 	<dd><label><input type="radio" class="radio" name="enable_prune" value="1"<!-- IF S_PRUNE_ENABLE --> id="enable_prune" checked="checked"<!-- ENDIF --> /> {L_YES}</label>
 		<label><input type="radio" class="radio" name="enable_prune" value="0"<!-- IF not S_PRUNE_ENABLE --> id="enable_prune" checked="checked"<!-- ENDIF --> /> {L_NO}</label></dd>
 </dl>
 <dl>
-	<dt><label for="prune_freq">{L_AUTO_PRUNE_FREQ}{L_COLON}</label><br /><span>{L_AUTO_PRUNE_FREQ_EXPLAIN}</span></dt>
+	<dt><label for="prune_freq">{L_ACP_TRASHBIN_AUTO_PRUNE_FREQ}{L_COLON}</label><br /><span>{L_ACP_TRASHBIN_AUTO_PRUNE_FREQ_EXPLAIN}</span></dt>
 	<dd><input type="number" id="prune_freq" name="prune_freq" value="{PRUNE_FREQ}" min="0" max="9999" /> {L_DAYS}</dd>
 </dl>
 <dl>
-	<dt><label for="prune_days">{L_AUTO_PRUNE_DAYS}{L_COLON}</label><br /><span>{L_AUTO_PRUNE_DAYS_EXPLAIN}</span></dt>
+	<dt><label for="prune_days">{L_ACP_TRASHBIN_AUTO_PRUNE_DAYS}{L_COLON}</label><br /><span>{L_ACP_TRASHBIN_AUTO_PRUNE_DAYS_EXPLAIN}</span></dt>
 	<dd><input type="number" id="prune_days" name="prune_days" value="{PRUNE_DAYS}" min="0" max="9999" /> {L_DAYS}</dd>
 </dl>
 </fieldset>

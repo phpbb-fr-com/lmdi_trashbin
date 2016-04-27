@@ -19,7 +19,6 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 */
 class listener implements EventSubscriberInterface
 {
-	protected $cache;
 	protected $user;
 	protected $db;
 	protected $template;
@@ -37,7 +36,6 @@ class listener implements EventSubscriberInterface
 		\phpbb\db\driver\driver_interface $db,
 		\phpbb\config\config $config,
 		\phpbb\template\template $template,
-		\phpbb\cache\service $cache,
 		\phpbb\user $user,
 		\phpbb\request\request $request,
 		\phpbb\auth\auth $auth,
@@ -48,7 +46,6 @@ class listener implements EventSubscriberInterface
 		$this->db = $db;
 		$this->config = $config;
 		$this->template = $template;
-		$this->cache = $cache;
 		$this->user = $user;
 		$this->request = $request;
 		$this->auth = $auth;

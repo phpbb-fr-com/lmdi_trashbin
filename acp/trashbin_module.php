@@ -83,7 +83,6 @@ class trashbin_module {
 			'PRUNE_FREQ'		=> $forum['prune_freq'],
 			));
 		$db->sql_freeresult($result);
-		
 	}
 
 
