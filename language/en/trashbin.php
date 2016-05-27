@@ -19,6 +19,8 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge ($lang, array(
 	'TRASHBIN'	=> 'Board Trashbin',
+	'TRASHBIN_MOVE'	=> 'Topic moved to the trashbin',
+	'TRASHBIN_TEXT'	=> 'Topic moved to the trashbin.',
 
 
 // ACP

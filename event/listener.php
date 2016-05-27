@@ -110,11 +110,43 @@ class listener implements EventSubscriberInterface
 				if ($this->auth->acl_get('m_delete', $this->fid) or $this->auth->acl_get('m_move', $this->fid))
 				{
 					include($this->root_path . 'includes/functions_admin.' . $this->phpEx);
+					include($this->root_path . 'includes/functions_posting.' . $this->phpEx);
+
+					// Creation of a post with date = today to keep the topic alive
+					$subject = utf8_normalize_nfc($this->user->lang['TRASHBIN_MOVE']);
+					$text    = utf8_normalize_nfc($this->user->lang['TRASHBIN_TEXT']);
+					$poll = $uid = $bitfield = $options = '';
+					generate_text_for_storage($subject, $uid, $bitfield, $options, false, false, false);
+					generate_text_for_storage($text, $uid, $bitfield, $options, true, true, true);
+					$data = array(
+						'forum_id'          => $this->fid,
+						'topic_id'          => $this->tid,
+						'icon_id'           => false,
+						'enable_bbcode'     => true,
+						'enable_smilies'    => true,
+						'enable_urls'       => true,
+						'enable_sig'        => true,
+						'message'           => $text,
+						'message_md5'       => md5($text),
+						'bbcode_bitfield'   => $bitfield,
+						'bbcode_uid'        => $uid,
+						'post_edit_locked'  => 0,
+						'topic_title'       => $subject,
+						'notify_set'        => false,
+						'notify'            => false,
+						'post_time'         => 0,
+						'forum_name'        => '',
+						'enable_indexing'   => true,
+						);
+					$poll = array();
+					echo submit_post('reply', $subject, '', POST_NORMAL, $poll, $data);
+					
 					// Moving and resetting the topic_type to normal
 					move_topics(array($this->tid), $target);
-					$sql = 'UPDATE ' . TOPICS_TABLE . ' SET topic_type = 0
+					$sql = 'UPDATE ' . TOPICS_TABLE . ' SET topic_type = 0, topic_status = 0
 						WHERE topic_id = ' . $this->tid;
 					$this->db->sql_query($sql);
+					
 					// Logging
 					$sql = 'SELECT forum_name FROM '. FORUMS_TABLE .' WHERE forum_id='. $this->fid;
 					$result = $this->db->sql_query($sql);
@@ -131,6 +163,7 @@ class listener implements EventSubscriberInterface
 						$this->fid,
 						$target,
 						));
+					
 					// Redirection
 					$params = "f=$target&amp;t=$this->tid";
 					$url = append_sid("{$this->root_path}viewtopic.$this->phpEx", $params);
