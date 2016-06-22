@@ -22,3 +22,6 @@ You must select a target forum to enable the extension.
 ## License
 [GNU General Public License v2](http://opensource.org/licenses/GPL-2.0)
 
+## Note
+This extension uses the (core) Prune forum feature for pruning topics put in the trashbin. This option is set in  the ACP.
+

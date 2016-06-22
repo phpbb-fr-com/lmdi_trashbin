@@ -27,10 +27,7 @@ class listener implements EventSubscriberInterface
 	protected $phpEx;
 	protected $request;
 	protected $auth;
-	protected $fid;
-	protected $tid;
-
-
+	protected $phpbb_log;
 
 	public function __construct(
 		\phpbb\db\driver\driver_interface $db,
@@ -39,6 +36,7 @@ class listener implements EventSubscriberInterface
 		\phpbb\user $user,
 		\phpbb\request\request $request,
 		\phpbb\auth\auth $auth,
+		\phpbb\log\log $log,
 		$root_path,
 		$phpEx
 		)
@@ -51,7 +49,10 @@ class listener implements EventSubscriberInterface
 		$this->auth = $auth;
 		$this->root_path = $root_path;
 		$this->phpEx = $phpEx;
+		$this->phpbb_log = $log;
+		
 	}
+
 
 	static public function getSubscribedEvents ()
 	{
@@ -97,20 +98,25 @@ class listener implements EventSubscriberInterface
 
 	public function move_topic($event)
 	{
-		global $phpbb_log;
 		$trash = $this->request->variable('trash', 0);
-		$this->fid = (int) $this->request->variable('f', 0);
-		$this->tid = (int) $this->request->variable('t', 0);
+		$fid = (int) $this->request->variable('f', 0);
+		$tid = (int) $this->request->variable('t', 0);
 		if ($trash)
 		{
 			$user_id = $this->user->data['user_id'];
 			$target = $this->config['lmdi_trashbin'];
-			if ($target != 0 && $this->fid != $target)
+			if ($target != 0 && $fid != $target)
 			{
-				if ($this->auth->acl_get('m_delete', $this->fid) or $this->auth->acl_get('m_move', $this->fid))
+				if ($this->auth->acl_get('m_delete', $fid) || $this->auth->acl_get('m_move', $fid))
 				{
-					include($this->root_path . 'includes/functions_admin.' . $this->phpEx);
-					include($this->root_path . 'includes/functions_posting.' . $this->phpEx);
+					if (!function_exists('move_topics'))
+					{
+						include($this->root_path . 'includes/functions_admin.' . $this->phpEx);
+					}
+					if (!function_exists('submit_post'))
+					{
+						include($this->root_path . 'includes/functions_posting.' . $this->phpEx);
+					}
 
 					// Creation of a post with date = today to keep the topic alive
 					$subject = utf8_normalize_nfc($this->user->lang['TRASHBIN_MOVE']);
@@ -119,53 +125,54 @@ class listener implements EventSubscriberInterface
 					generate_text_for_storage($subject, $uid, $bitfield, $options, false, false, false);
 					generate_text_for_storage($text, $uid, $bitfield, $options, true, true, true);
 					$data = array(
-						'forum_id'          => $this->fid,
-						'topic_id'          => $this->tid,
-						'icon_id'           => false,
-						'enable_bbcode'     => true,
-						'enable_smilies'    => true,
-						'enable_urls'       => true,
-						'enable_sig'        => true,
-						'message'           => $text,
-						'message_md5'       => md5($text),
-						'bbcode_bitfield'   => $bitfield,
-						'bbcode_uid'        => $uid,
-						'post_edit_locked'  => 0,
-						'topic_title'       => $subject,
-						'notify_set'        => false,
-						'notify'            => false,
-						'post_time'         => 0,
-						'forum_name'        => '',
-						'enable_indexing'   => true,
+						'forum_id'		=> $fid,
+						'topic_id'		=> $tid,
+						'icon_id'			=> false,
+						'enable_bbcode'	=> true,
+						'enable_smilies'	=> true,
+						'enable_urls'		=> true,
+						'enable_sig'		=> true,
+						'message'			=> $text,
+						'message_md5'		=> md5($text),
+						'bbcode_bitfield'	=> $bitfield,
+						'bbcode_uid'		=> $uid,
+						'post_edit_locked'	=> 0,
+						'topic_title'		=> $subject,
+						'notify_set'		=> false,
+						'notify'			=> false,
+						'post_time'		=> 0,
+						'forum_name'		=> '',
+						'enable_indexing'	=> true,
 						);
 					$poll = array();
 					echo submit_post('reply', $subject, '', POST_NORMAL, $poll, $data);
-					
+
 					// Moving and resetting the topic_type to normal
 					move_topics(array($this->tid), $target);
-					$sql = 'UPDATE ' . TOPICS_TABLE . ' SET topic_type = 0, topic_status = 0
-						WHERE topic_id = ' . $this->tid;
+					$sql = 'UPDATE ' . TOPICS_TABLE . ' 
+						SET topic_type = POST_NORMAL, topic_status = 0
+						WHERE topic_id = ' . $tid;
 					$this->db->sql_query($sql);
-					
+
 					// Logging
-					$sql = 'SELECT forum_name FROM '. FORUMS_TABLE .' WHERE forum_id='. $this->fid;
+					$sql = 'SELECT forum_name FROM '. FORUMS_TABLE .' WHERE forum_id='. $fid;
 					$result = $this->db->sql_query($sql);
 					$forum = $this->db->sql_fetchrow($result);
 					$this->db->sql_freeresult($result);
 					$trashbin = $this->user->lang['TRASHBIN'];
 					// See line 578, mcp_main.php
-					$phpbb_log->add('mod', $user_id, $this->user->ip, 'LOG_MOVE', false,
+					$this->phpbb_log->add('mod', $user_id, $this->user->ip, 'LOG_MOVE', false,
 						array(
 						'forum_id' => $target,
-						'topic_id' => $this->tid,
+						'topic_id' => $tid,
 						$forum['forum_name'],
 						$trashbin,
-						$this->fid,
+						$fid,
 						$target,
 						));
-					
+
 					// Redirection
-					$params = "f=$target&amp;t=$this->tid";
+					$params = "f=$target&amp;t=$tid";
 					$url = append_sid("{$this->root_path}viewtopic.$this->phpEx", $params);
 					redirect($url);
 				}

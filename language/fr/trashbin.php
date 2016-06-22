@@ -24,7 +24,7 @@ $lang = array_merge ($lang, array(
 
 // ACP
 	'ACP_TRASHBIN_TITLE'	=> 'Corbeille du forum',
-	'ACP_TRASHBIN_SETTINGS'	=> 'Paramétrage de l\'extension',
+	'ACP_TRASHBIN_SETTINGS'	=> 'Paramétrage de l’extension',
 	'ACP_TRASHBIN_ALLOW_FEATURE'		=> 'Sélection du forum de destination',
 	'ACP_TRASHBIN_ALLOW_FEATURE_EXPLAIN'	=> 'Vous pouvez sélectionner ci-contre le forum qui sera la destination des sujets mis à la corbeille.',
 	'ACP_TRASHBIN_FORUM_PRUNE_SETTINGS'	=> 'Paramètres de délestage de la corbeille',

@@ -16,10 +16,8 @@ class trashbin_module {
 
 	public function main ($id, $mode)
 	{
-		global $db, $user, $auth, $template, $cache, $request;
-		global $config, $phpbb_root_path, $phpbb_admin_path, $phpEx;
-		global $table_prefix, $phpbb_container;
-
+		global $db, $user, $template, $request, $config;
+		
 		$user->add_lang_ext ('lmdi/trashbin', 'trashbin');
 
 		$this->tpl_name = 'acp_trashbin_body';
@@ -36,21 +34,22 @@ class trashbin_module {
 			}
 			else
 			{
-				$otarget = $config['lmdi_trashbin'];
-				$target = $request->variable ('forum', 0);
+				$otarget = (int) $config['lmdi_trashbin'];
+				$target = (int) $request->variable ('forum', 0);
 				if ($otarget != $target)
 				{
+					// Reset the pruning status of old target
 					$sql = "UPDATE ". FORUMS_TABLE . "
 						SET enable_prune = 0 
-						WHERE forum_id = '$otarget'";
+						WHERE forum_id = $otarget";
 					$db->sql_query($sql);
 				}
-				$enable_prune = $request->variable ('enable_prune', 0);
-				$prune_freq = $request->variable ('prune_freq', 0);
-				$prune_days = $request->variable ('prune_days', 0);
+				$enable_prune = (int) $request->variable ('enable_prune', 0);
+				$prune_freq = (int) $request->variable ('prune_freq', 0);
+				$prune_days = (int) $request->variable ('prune_days', 0);
 				$sql = "UPDATE ". FORUMS_TABLE . "
 					SET enable_prune = $enable_prune, prune_days = $prune_days, prune_freq = $prune_freq
-					WHERE forum_id = '$target'";
+					WHERE forum_id = $target";
 				$db->sql_query($sql);
 				$config->set ('lmdi_trashbin', $target);
 				$message = $user->lang['CONFIG_UPDATED'];
@@ -62,7 +61,7 @@ class trashbin_module {
 		add_form_key ($form_key);
 
 		$target = $config['lmdi_trashbin'];
-		$forum_list = $this->get_forum_list();
+		$forum_list = make_forum_select(false, false, true, true, true, false, true);
 		foreach ($forum_list as $row)
 		{
 			$template->assign_block_vars('forums', array(
@@ -83,20 +82,6 @@ class trashbin_module {
 			'PRUNE_FREQ'		=> $forum['prune_freq'],
 			));
 		$db->sql_freeresult($result);
-	}
-
-
-	function get_forum_list()
-	{
-		global $db;
-		$sql = 'SELECT forum_id, forum_name 
-			FROM ' . FORUMS_TABLE . '
-			WHERE forum_type = ' . FORUM_POST . '
-			ORDER BY left_id ASC';
-		$result = $db->sql_query($sql);
-		$forum_list = $db->sql_fetchrowset($result);
-		$db->sql_freeresult($result);
-		return $forum_list;
 	}
 
 }
