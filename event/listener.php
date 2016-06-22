@@ -50,7 +50,6 @@ class listener implements EventSubscriberInterface
 		$this->root_path = $root_path;
 		$this->phpEx = $phpEx;
 		$this->phpbb_log = $log;
-		
 	}
 
 

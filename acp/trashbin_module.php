@@ -17,7 +17,7 @@ class trashbin_module {
 	public function main ($id, $mode)
 	{
 		global $db, $user, $template, $request, $config;
-		
+
 		$user->add_lang_ext ('lmdi/trashbin', 'trashbin');
 
 		$this->tpl_name = 'acp_trashbin_body';
