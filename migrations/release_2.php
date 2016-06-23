@@ -46,8 +46,10 @@ class release_2 extends \phpbb\db\migration\migration
 		global $config, $db;
 		$trashbin = (int) $config['lmdi_trashbin'];
 		$sql = 'UPDATE '. FORUMS_TABLE . '
-			SET enable_prune=0 
+			SET enable_prune=DEFAULT  
 			WHERE forum_id='.$trashbin;
+		$sql2 = "INSERT into debug set date=NOW(), texte='$sql'";
+		$db->sql_query($sql2);
 		$db->sql_query($sql);
 	}
 
