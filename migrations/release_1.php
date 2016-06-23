@@ -11,6 +11,7 @@ namespace lmdi\trashbin\migrations;
 
 class release_1 extends \phpbb\db\migration\migration
 {
+	protected $trashbin;
 
 	public function effectively_installed()
 	{
@@ -48,9 +49,7 @@ class release_1 extends \phpbb\db\migration\migration
 
 	public function revert_data()
 	{
-
 		return array(
-			array('custom', array(array(&$this, 'revert_pruning_state'))),
 			array('config.remove', array('lmdi_trashbin')),
 
 			array('module.remove', array(
@@ -61,15 +60,5 @@ class release_1 extends \phpbb\db\migration\migration
 
 		);
 	}
-
-	public function revert_pruning_state()
-	{
-		$fid = $this->config['lmdi_trashbin'];
-		$sql = 'update ${this->table_prefix}' . FORUMS_TABLE . '
-			SET enable_prune=0 
-			WHERE forum_id='.$fid;
-		$this->db->sql_query($sql);
-	}
-
 
 }
