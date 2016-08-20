@@ -1,7 +1,7 @@
 <?php
 /**
 *
-* @package phpBB Extension - LMDI Trashbin extension
+* @package phpBB Extension - LMDI Trashbin
 * @copyright (c) 2016 LMDI - Pierre Duhem
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
@@ -9,10 +9,12 @@
 
 namespace lmdi\trashbin\event;
 
+
 /**
 * @ignore
 */
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+
 
 /**
 * Event listener
@@ -79,7 +81,8 @@ class listener implements EventSubscriberInterface
 	public function build_url($event)
 	{
 		$target = $this->config['lmdi_trashbin'];
-		if ($target != $this->fid)
+		// Moderator with right to move or delete, Trashbin configured and we aren't in the trashbin
+		if (($this->auth->acl_get('m_delete', $this->fid) || $this->auth->acl_get('m_move', $this->fid)) && $target && ($target != $this->fid))
 		{
 			$params = "f=$this->fid&amp;t=$this->tid&amp;trash=1";
 			$url = append_sid($this->root_path . 'viewtopic.' . $this->phpEx, $params);
@@ -100,12 +103,13 @@ class listener implements EventSubscriberInterface
 	public function move_topic($event)
 	{
 		$trash = $this->request->variable('trash', 0);
-		$this->fid = (int) $this->request->variable('f', 0);
-		$this->tid = (int) $this->request->variable('t', 0);
+		$this->fid = $this->request->variable('f', 0);
+		$this->tid = $this->request->variable('t', 0);
 		if ($trash)
 		{
 			$user_id = $this->user->data['user_id'];
 			$target = $this->config['lmdi_trashbin'];
+			// Trashbin configured and we aren't within this forum
 			if ($target != 0 && $this->fid != $target)
 			{
 				if ($this->auth->acl_get('m_delete', $this->fid) || $this->auth->acl_get('m_move', $this->fid))
@@ -118,6 +122,11 @@ class listener implements EventSubscriberInterface
 					{
 						include($this->root_path . 'includes/functions_posting.' . $this->phpEx);
 					}
+
+					// Deletion of the subscriptions to the topic moved to trashbin
+					$sql = 'DELETE FROM ' . TOPICS_WATCH_TABLE . '
+						WHERE topic_id=' . (int) $this->tid;
+					$this->db->sql_query($sql);
 
 					// Creation of a post with date = today to keep the topic alive
 					$subject = utf8_normalize_nfc($this->user->lang['TRASHBIN_MOVE']);
@@ -146,12 +155,11 @@ class listener implements EventSubscriberInterface
 						'enable_indexing'	=> true,
 						);
 					$poll = array();
-					echo submit_post('reply', $subject, '', POST_NORMAL, $poll, $data);
+					submit_post('reply', $subject, '', POST_NORMAL, $poll, $data);
 
 					// Moving and resetting the topic_type to normal
 					move_topics(array($this->tid), $target);
-					$sql = 'UPDATE ' . TOPICS_TABLE . ' 
-						SET topic_type = '. POST_NORMAL . ', topic_status = 0
+					$sql = 'UPDATE ' . TOPICS_TABLE . ' SET topic_type = 0, topic_status = 0
 						WHERE topic_id = ' . $this->tid;
 					$this->db->sql_query($sql);
 

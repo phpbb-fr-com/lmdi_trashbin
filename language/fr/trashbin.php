@@ -1,6 +1,6 @@
 <?php
 /**
-* gloss.php
+* trashbin.php
 * @package phpBB Extension - LMDI Trashbin
 * @copyright (c) 2016 LMDI - Pierre Duhem
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2

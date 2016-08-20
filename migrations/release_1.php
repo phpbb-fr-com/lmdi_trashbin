@@ -1,7 +1,7 @@
 <?php
 /**
 *
-* @package phpBB Extension - LMDI Trashbin extension
+* @package phpBB Extension - LMDI Trashbin
 * @copyright (c) 2016 Pierre Duhem - LMDI
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
@@ -11,8 +11,6 @@ namespace lmdi\trashbin\migrations;
 
 class release_1 extends \phpbb\db\migration\migration
 {
-	protected $trashbin;
-
 	public function effectively_installed()
 	{
 		return isset($this->config['lmdi_trashbin']);

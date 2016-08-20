@@ -10,9 +10,8 @@ namespace lmdi\trashbin\acp;
 
 class trashbin_module {
 
-	protected $gloss_helper;
-	var $u_action;
-	var $action;
+	public $u_action;
+	protected $action;
 
 	public function main ($id, $mode)
 	{
@@ -35,21 +34,26 @@ class trashbin_module {
 			else
 			{
 				$otarget = (int) $config['lmdi_trashbin'];
-				$target = (int) $request->variable ('forum', 0);
+				$target = $request->variable('forum', 0);
 				if ($otarget != $target)
 				{
 					// Reset the pruning status of old target
-					$sql = "UPDATE ". FORUMS_TABLE . "
+					$sql = 'UPDATE ' . FORUMS_TABLE . '
 						SET enable_prune = 0 
-						WHERE forum_id = $otarget";
+						WHERE forum_id = ' (int) $otarget;
 					$db->sql_query($sql);
 				}
-				$enable_prune = (int) $request->variable ('enable_prune', 0);
-				$prune_freq = (int) $request->variable ('prune_freq', 0);
-				$prune_days = (int) $request->variable ('prune_days', 0);
-				$sql = "UPDATE ". FORUMS_TABLE . "
-					SET enable_prune = $enable_prune, prune_days = $prune_days, prune_freq = $prune_freq
-					WHERE forum_id = $target";
+				$enable_prune = $request->variable('enable_prune', 0);
+				$prune_freq = $request->variable('prune_freq', 0);
+				$prune_days = $request->variable('prune_days', 0);
+				$sql_ary = array(
+					'enable_prune'	=> $enable_prune,
+					'prune_days'	=> $prune_days,
+					'prune_freq'	=> $prune_freq
+					);
+				$sql = 'UPDATE '. FORUMS_TABLE . '
+					SET ' . $db->sql_build_array ('UPDATE', $sql_ary) . '
+					WHERE forum_id = ' (int) $target;
 				$db->sql_query($sql);
 				$config->set ('lmdi_trashbin', $target);
 				$message = $user->lang['CONFIG_UPDATED'];
@@ -65,16 +69,17 @@ class trashbin_module {
 		foreach ($forum_list as $row)
 		{
 			$template->assign_block_vars('forums', array(
-				'FORUM_NAME'			=> $row['forum_name'],
-				'FORUM_ID'			=> $row['forum_id'],
-				'SELECTED'			=> (($target == $row['forum_id']) ? "selected" : "")
+				'FORUM_NAME'	=> $row['forum_name'],
+				'FORUM_ID'	=> $row['forum_id'],
+				'SELECTED'	=> (($target == $row['forum_id']) ? "selected" : "")
 			));
 		}
 
-		$sql = "SELECT * from " . FORUMS_TABLE . " WHERE forum_id = '$target'";
+		$sql = 'SELECT * 
+			FROM ' . FORUMS_TABLE . '
+			WHERE forum_id = ' (int) $target;
 		$result = $db->sql_query($sql);
 		$forum = $db->sql_fetchrow ($result);
-
 		$template->assign_vars (array(
 			'C_ACTION'		=> $action_config,
 			'S_PRUNE_ENABLE'	=> $forum['enable_prune'],
