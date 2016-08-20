@@ -9,12 +9,10 @@
 
 namespace lmdi\trashbin\event;
 
-
 /**
 * @ignore
 */
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-
 
 /**
 * Event listener

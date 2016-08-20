@@ -18,7 +18,7 @@ class release_2 extends \phpbb\db\migration\migration
 		return isset($this->config['lmdi_trashbin2']);
 	}
 
-	
+
 	static public function depends_on()
 	{
 		return array('\lmdi\trashbin\migrations\release_1');
