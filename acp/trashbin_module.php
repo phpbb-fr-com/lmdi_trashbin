@@ -40,7 +40,7 @@ class trashbin_module {
 					// Reset the pruning status of old target
 					$sql = 'UPDATE ' . FORUMS_TABLE . '
 						SET enable_prune = 0 
-						WHERE forum_id = ' (int) $otarget;
+						WHERE forum_id = ' . (int) $otarget;
 					$db->sql_query($sql);
 				}
 				$enable_prune = $request->variable('enable_prune', 0);
@@ -53,7 +53,7 @@ class trashbin_module {
 					);
 				$sql = 'UPDATE '. FORUMS_TABLE . '
 					SET ' . $db->sql_build_array ('UPDATE', $sql_ary) . '
-					WHERE forum_id = ' (int) $target;
+					WHERE forum_id = ' . (int) $target;
 				$db->sql_query($sql);
 				$config->set ('lmdi_trashbin', $target);
 				$message = $user->lang['CONFIG_UPDATED'];
@@ -77,7 +77,7 @@ class trashbin_module {
 
 		$sql = 'SELECT * 
 			FROM ' . FORUMS_TABLE . '
-			WHERE forum_id = ' (int) $target;
+			WHERE forum_id = ' . (int) $target;
 		$result = $db->sql_query($sql);
 		$forum = $db->sql_fetchrow ($result);
 		$template->assign_vars (array(
