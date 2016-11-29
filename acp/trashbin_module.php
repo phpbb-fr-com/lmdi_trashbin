@@ -23,7 +23,7 @@ class trashbin_module {
 		$this->page_title = $user->lang('ACP_TRASHBIN_TITLE');
 
 		$action = $request->variable ('action', '');
-		$action_config = $this->u_action . "&action=config";
+		$action_config = $this->u_action . "&amp;action=config";
 
 		if ($action == 'config')
 		{
@@ -68,11 +68,14 @@ class trashbin_module {
 		$forum_list = make_forum_select(false, false, true, true, true, false, true);
 		foreach ($forum_list as $row)
 		{
-			$template->assign_block_vars('forums', array(
-				'FORUM_NAME'	=> $row['forum_name'],
-				'FORUM_ID'	=> $row['forum_id'],
-				'SELECTED'	=> (($target == $row['forum_id']) ? "selected" : "")
-			));
+			if ($row['disabled'] == false)	// Avoid selecting categories
+			{
+				$template->assign_block_vars('forums', array(
+					'FORUM_NAME'	=> $row['forum_name'],
+					'FORUM_ID'	=> $row['forum_id'],
+					'SELECTED'	=> (($target == $row['forum_id']) ? "selected" : "")
+				));
+			}
 		}
 
 		$sql = 'SELECT * 

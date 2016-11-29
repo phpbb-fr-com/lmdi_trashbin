@@ -79,7 +79,7 @@ class listener implements EventSubscriberInterface
 	public function build_url($event)
 	{
 		$target = $this->config['lmdi_trashbin'];
-		// Moderator with right to move or delete, Trashbin configured and we aren't in the trashbin
+		// Moderator with right to move or delete, trashbin configured and we aren't in the trashbin
 		if (($this->auth->acl_get('m_delete', $this->fid) || $this->auth->acl_get('m_move', $this->fid)) && $target && ($target != $this->fid))
 		{
 			$params = "f=$this->fid&amp;t=$this->tid&amp;trash=1";
@@ -110,7 +110,7 @@ class listener implements EventSubscriberInterface
 			// Trashbin configured and we aren't within this forum
 			if ($target != 0 && $this->fid != $target)
 			{
-				if ($this->auth->acl_get('m_delete', $this->fid) || $this->auth->acl_get('m_move', $this->fid))
+				if (($this->auth->acl_get('m_delete', $this->fid) || $this->auth->acl_get('m_move', $this->fid)) && ($this->auth->acl_get('f_noapprove', $target) && $this->auth->acl_get('f_list', $target)))
 				{
 					if (!function_exists('move_topics'))
 					{
@@ -128,7 +128,7 @@ class listener implements EventSubscriberInterface
 
 					// Creation of a post with date = today to keep the topic alive
 					$subject = utf8_normalize_nfc($this->user->lang['TRASHBIN_MOVE']);
-					$text    = utf8_normalize_nfc($this->user->lang['TRASHBIN_TEXT']);
+					$text = utf8_normalize_nfc($this->user->lang['TRASHBIN_TEXT']);
 					$poll = $uid = $bitfield = $options = '';
 					generate_text_for_storage($subject, $uid, $bitfield, $options, false, false, false);
 					generate_text_for_storage($text, $uid, $bitfield, $options, true, true, true);
