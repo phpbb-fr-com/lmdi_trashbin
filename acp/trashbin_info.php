@@ -11,7 +11,7 @@ namespace lmdi\trashbin\acp;
 
 class trashbin_info
 {
-	function module()
+	public function module()
 	{
 		return array(
 			'filename'	=> '\lmdi\trashbin\acp\trashbin_module',

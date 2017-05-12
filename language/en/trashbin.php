@@ -31,7 +31,7 @@ $lang = array_merge ($lang, array(
 
 	'ACP_TRASHBIN_FORUM_PRUNE_SETTINGS'		=> 'Trashbin prune settings',
 	'ACP_TRASHBIN_FORUM_AUTO_PRUNE'			=> 'Enable auto-pruning',
-	'ACP_TRASHBIN_FORUM_AUTO_PRUNE_EXPLAIN'	=> 'Prunes the trashbin of topics, set the frequency/age parameters below.',
+	'ACP_TRASHBIN_FORUM_AUTO_PRUNE_EXPLAIN'	=> 'Topics placed in  the trashbin are automatically pruned when the parameters (prune frequency and postage) below are satisfied.',
 	'ACP_TRASHBIN_AUTO_PRUNE_DAYS'			=> 'Auto-prune post age',
 	'ACP_TRASHBIN_AUTO_PRUNE_DAYS_EXPLAIN'	=> 'Number of days since last post after which topic is removed.',
 	'ACP_TRASHBIN_AUTO_PRUNE_FREQ'			=> 'Auto-prune frequency',

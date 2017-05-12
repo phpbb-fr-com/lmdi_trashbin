@@ -1,3 +1,8 @@
 <!-- IF S_VIEWTOPIC and S_TRASHBIN -->
-	<li class="small-icon icon-delete-cookies"><a href="{U_TRASHBIN}" role="menuitem">{L_TRASHBIN}</a></li>
+	<!-- IF S_320 -->
+		<li> <a href="{U_TRASHBIN}" role="menuitem"> <i class="icon fa-cogs fa-fw" aria-hidden="true"></i>
+		<span>{L_TRASHBIN}</span></a></li>
+	<!-- ELSE -->
+		<li class="small-icon icon-delete-cookies"><a href="{U_TRASHBIN}" role="menuitem">{L_TRASHBIN}</a></li>
+	<!-- ENDIF -->
 <!-- ENDIF -->

@@ -67,6 +67,7 @@ class listener implements EventSubscriberInterface
 
 	public function load_language_on_setup($event)
 	{
+		// var_dump ("Appel de load_language");
 		$lang_set_ext = $event['lang_set_ext'];
 		$lang_set_ext[] = array(
 			'ext_name' => 'lmdi/trashbin',
@@ -78,6 +79,15 @@ class listener implements EventSubscriberInterface
 
 	public function build_url($event)
 	{
+		// var_dump ("Appel de build_url");
+		if (version_compare ($this->config['version'], '3.2.x', '<'))
+		{
+			$trashbin_class = 0;
+		}
+		else
+		{
+			$trashbin_class = 1;
+		}
 		$target = $this->config['lmdi_trashbin'];
 		// Moderator with right to move or delete, trashbin configured and we aren't in the trashbin
 		if (($this->auth->acl_get('m_delete', $this->fid) || $this->auth->acl_get('m_move', $this->fid)) && $target && ($target != $this->fid))
@@ -88,6 +98,7 @@ class listener implements EventSubscriberInterface
 				'U_TRASHBIN'	=> $url,
 				'L_TRASHBIN'	=> $this->user->lang['TRASHBIN'],
 				'S_TRASHBIN'	=> true,
+				'S_320'		=> $trashbin_class,
 				));
 		}
 		else
@@ -101,10 +112,12 @@ class listener implements EventSubscriberInterface
 	public function move_topic($event)
 	{
 		$trash = $this->request->variable('trash', 0);
-		$this->fid = $this->request->variable('f', 0);
-		$this->tid = $this->request->variable('t', 0);
 		if ($trash)
 		{
+			$forum_id = $event['forum_id'];
+			$this->fid = $forum_id;
+			$topic_id = $event['topic_id'];
+			$this->tid = $topic_id;
 			$user_id = $this->user->data['user_id'];
 			$target = $this->config['lmdi_trashbin'];
 			// Trashbin configured and we aren't within this forum

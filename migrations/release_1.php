@@ -35,6 +35,7 @@ class release_1 extends \phpbb\db\migration\migration
 				'ACP_TRASHBIN_TITLE',
 				array(
 					'module_basename'	=> '\lmdi\trashbin\acp\trashbin_module',
+					'auth'			=> 'ext_lmdi/trashbin && acl_a_board',
 					'modes'			=> array('settings'),
 				),
 			)),
