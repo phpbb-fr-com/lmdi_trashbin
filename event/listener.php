@@ -109,15 +109,6 @@ class listener implements EventSubscriberInterface
 		}
 	}
 
-	private function get_forum_name ($fid)
-	{
-		$sql = ' SELECT forum_name from ' . FORUMS_TABLE . ' WHERE forum_id = ' . $fid;
-		$result = $this->db->sql_query($sql);
-		$forum = $this->db->sql_fetchrow($result);
-		$this->db->sql_freeresult($result);
-		return ($forum);
-	}
-	
 	public function move_topic($event)
 	{
 		$trash = $this->request->variable('trash', 0);
