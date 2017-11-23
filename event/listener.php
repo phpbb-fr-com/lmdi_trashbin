@@ -67,7 +67,6 @@ class listener implements EventSubscriberInterface
 
 	public function load_language_on_setup($event)
 	{
-		// var_dump ("Appel de load_language");
 		$lang_set_ext = $event['lang_set_ext'];
 		$lang_set_ext[] = array(
 			'ext_name' => 'lmdi/trashbin',
@@ -79,7 +78,6 @@ class listener implements EventSubscriberInterface
 
 	public function build_url($event)
 	{
-		// var_dump ("Appel de build_url");
 		if (version_compare ($this->config['version'], '3.2.x', '<'))
 		{
 			$trashbin_class = 0;
@@ -89,6 +87,8 @@ class listener implements EventSubscriberInterface
 			$trashbin_class = 1;
 		}
 		$target = $this->config['lmdi_trashbin'];
+		$this->fid = $this->request->variable('f', 0);
+		$this->tid = $this->request->variable('t', 0);
 		// Moderator with right to move or delete, trashbin configured and we aren't in the trashbin
 		if (($this->auth->acl_get('m_delete', $this->fid) || $this->auth->acl_get('m_move', $this->fid)) && $target && ($target != $this->fid))
 		{
@@ -109,6 +109,15 @@ class listener implements EventSubscriberInterface
 		}
 	}
 
+	private function get_forum_name ($fid)
+	{
+		$sql = ' SELECT forum_name from ' . FORUMS_TABLE . ' WHERE forum_id = ' . $fid;
+		$result = $this->db->sql_query($sql);
+		$forum = $this->db->sql_fetchrow($result);
+		$this->db->sql_freeresult($result);
+		return ($forum);
+	}
+	
 	public function move_topic($event)
 	{
 		$trash = $this->request->variable('trash', 0);
@@ -120,6 +129,9 @@ class listener implements EventSubscriberInterface
 			$this->tid = $topic_id;
 			$user_id = $this->user->data['user_id'];
 			$target = $this->config['lmdi_trashbin'];
+			$topic_data = $event['topic_data'];
+			$forum_name = $topic_data['forum_name'];
+
 			// Trashbin configured and we aren't within this forum
 			if ($target != 0 && $this->fid != $target)
 			{
@@ -142,6 +154,8 @@ class listener implements EventSubscriberInterface
 					// Creation of a post with date = today to keep the topic alive
 					$subject = utf8_normalize_nfc($this->user->lang['TRASHBIN_MOVE']);
 					$text = utf8_normalize_nfc($this->user->lang['TRASHBIN_TEXT']);
+					$str_source = sprintf ($this->user->lang['TRASHBIN_SOURCE'], $this->fid, $forum_name);
+					$text .= utf8_normalize_nfc ($str_source);
 					$poll = $uid = $bitfield = $options = '';
 					generate_text_for_storage($subject, $uid, $bitfield, $options, false, false, false);
 					generate_text_for_storage($text, $uid, $bitfield, $options, true, true, true);
@@ -191,7 +205,7 @@ class listener implements EventSubscriberInterface
 						$target,
 						));
 
-					// Redirection
+					// Redirection to the moved topic
 					$params = "f=$target&amp;t=$this->tid";
 					$url = append_sid("{$this->root_path}viewtopic.$this->phpEx", $params);
 					redirect($url);

@@ -21,6 +21,7 @@ $lang = array_merge ($lang, array(
 	'TRASHBIN'	=> 'Board Trashbin',
 	'TRASHBIN_MOVE'	=> 'Topic moved to the trashbin',
 	'TRASHBIN_TEXT'	=> 'Topic moved to the trashbin.',
+	'TRASHBIN_SOURCE'	=> ' Source forum: %d (%s).',
 
 
 // ACP
