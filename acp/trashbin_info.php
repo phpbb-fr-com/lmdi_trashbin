@@ -2,7 +2,7 @@
 /**
 *
 * @package phpBB Extension - LMDI Trashbin
-* @copyright (c) 2015-2016 Pierre Duhem - LMDI
+* @copyright (c) 2015-2019 Pierre Duhem - LMDI
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
@@ -11,7 +11,7 @@ namespace lmdi\trashbin\acp;
 
 class trashbin_info
 {
-	public function module()
+	function module()
 	{
 		return array(
 			'filename'	=> '\lmdi\trashbin\acp\trashbin_module',

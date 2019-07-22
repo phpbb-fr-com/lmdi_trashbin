@@ -2,7 +2,7 @@
 /**
 * trashbin.php
 * @package phpBB Extension - LMDI Trashbin
-* @copyright (c) 2016 LMDI - Pierre Duhem
+* @copyright (c) 2016-2019 LMDI - Pierre Duhem
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
@@ -21,7 +21,6 @@ $lang = array_merge ($lang, array(
 	'TRASHBIN'			=> 'Corbeille du forum',
 	'TRASHBIN_MOVE'		=> 'Mise à la corbeille',
 	'TRASHBIN_TEXT'		=> 'Sujet mis à la corbeille.',
-	'TRASHBIN_SOURCE'		=> ' Forum d’origine : %d (%s).',
 
 // ACP
 	'ACP_TRASHBIN_TITLE'	=> 'Corbeille du forum',
