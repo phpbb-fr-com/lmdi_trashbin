@@ -159,7 +159,7 @@ class listener implements EventSubscriberInterface
 					// Moving and resetting the topic_type to normal
 					move_topics(array($this->tid), $target);
 					$sql = 'UPDATE ' . TOPICS_TABLE . ' SET topic_type = 0, topic_status = 0
-						WHERE topic_id = ' . $this->tid;
+						WHERE topic_id = ' . (int) $this->tid;
 					$this->db->sql_query($sql);
 
 					// Logging
