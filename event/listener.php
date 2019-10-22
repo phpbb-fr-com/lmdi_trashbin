@@ -20,6 +20,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 class listener implements EventSubscriberInterface
 {
 	protected $user;
+	protected $language;
 	protected $db;
 	protected $template;
 	protected $config;
@@ -36,6 +37,7 @@ class listener implements EventSubscriberInterface
 		\phpbb\config\config $config,
 		\phpbb\template\template $template,
 		\phpbb\user $user,
+		\phpbb\language\language $language,
 		\phpbb\request\request $request,
 		\phpbb\auth\auth $auth,
 		\phpbb\log\log $log,
@@ -47,6 +49,7 @@ class listener implements EventSubscriberInterface
 		$this->config = $config;
 		$this->template = $template;
 		$this->user = $user;
+		$this->language = $language;
 		$this->request = $request;
 		$this->auth = $auth;
 		$this->root_path = $root_path;
@@ -86,7 +89,7 @@ class listener implements EventSubscriberInterface
 			$url = append_sid($this->root_path . 'viewtopic.' . $this->phpEx, $params);
 			$this->template->assign_vars(array(
 				'U_TRASHBIN'	=> $url,
-				'L_TRASHBIN'	=> $this->user->lang['TRASHBIN'],
+				'L_TRASHBIN'	=> $this->language->lang('TRASHBIN'),
 				'S_TRASHBIN'	=> true,
 				));
 		}
@@ -101,6 +104,7 @@ class listener implements EventSubscriberInterface
 
 	public function move_topic($event)
 	{
+		// var_dump ($event);
 		$this->fid = $event['forum_id'];
 		$this->tid = $event['topic_id'];
 		$trash = $this->request->variable('trash', 0);
@@ -108,9 +112,10 @@ class listener implements EventSubscriberInterface
 		{
 			$user_id = $this->user->data['user_id'];
 			$target = $this->config['lmdi_trashbin'];
-			// Trashbin configured and we aren't already within this forum
+			// Trashbin already configured and we aren't within this forum
 			if ($target != 0 && $this->fid != $target)
 			{
+				// Various permissions
 				if (($this->auth->acl_get('m_delete', $this->fid) || $this->auth->acl_get('m_move', $this->fid)) && ($this->auth->acl_get('f_noapprove', $target) && $this->auth->acl_get('f_list', $target)))
 				{
 					if (!function_exists('move_topics'))
@@ -127,10 +132,13 @@ class listener implements EventSubscriberInterface
 						WHERE topic_id=' . (int) $this->tid;
 					$this->db->sql_query($sql);
 
-					// Creation of a post with date = today to keep the topic alive
-					$subject = utf8_normalize_nfc($this->user->lang['TRASHBIN_MOVE']);
-					$text = utf8_normalize_nfc($this->user->lang['TRASHBIN_TEXT']);
-					$poll = $uid = $bitfield = $options = '';
+					// Creation of a post with same subject, date = today to keep the topic alive
+					$topic_data = $event['topic_data'];
+					$forum_name = $topic_data['forum_name'];
+					$post_text = sprintf ($this->language->lang('TRASHBIN_TEXT'), $forum_name);
+					$subject = utf8_normalize_nfc($topic_data['topic_title']);
+					$text = utf8_normalize_nfc($post_text);
+					$uid = $bitfield = $options = '';
 					generate_text_for_storage($subject, $uid, $bitfield, $options, false, false, false);
 					generate_text_for_storage($text, $uid, $bitfield, $options, true, true, true);
 					$data = array(
@@ -163,12 +171,7 @@ class listener implements EventSubscriberInterface
 					$this->db->sql_query($sql);
 
 					// Logging
-					$sql = 'SELECT forum_name FROM '. FORUMS_TABLE .' WHERE forum_id='. $this->fid;
-					$result = $this->db->sql_query($sql);
-					$forum = $this->db->sql_fetchrow($result);
-					$forum_name = $forum['forum_name'];
-					$this->db->sql_freeresult($result);
-					$trashbin = $this->user->lang['TRASHBIN'];
+					$trashbin = $this->language->lang('TRASHBIN');
 					// See line 578, mcp_main.php
 					$this->phpbb_log->add('mod', $user_id, $this->user->ip, 'LOG_MOVE', false,
 						array(
@@ -180,7 +183,7 @@ class listener implements EventSubscriberInterface
 						$target,
 						));
 
-					// Redirection
+					// Redirection of browser to the trashbin
 					$params = "f=$target&amp;t=$this->tid";
 					$url = append_sid("{$this->root_path}viewtopic.$this->phpEx", $params);
 					redirect($url);
