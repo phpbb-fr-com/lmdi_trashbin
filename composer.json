@@ -3,8 +3,8 @@
 	"type": "phpbb-extension",
 	"description": "Trashbin for phpBB 3.2",
 	"homepage": "http://www.insecte.org/ext/readme.txt",
-	"version": "1.2.1",
-	"time": "2019-10-22",
+	"version": "1.2.2",
+	"time": "2019-12-12",
 	"license": "GPL-2.0-only",
 	"authors": 
 	[	
@@ -30,7 +30,7 @@
 	"extra": {
 		"display-name": "LMDI Trashbin",
 		"soft-require": {
-			"phpbb/phpbb": ">=3.2.0-RC2,<3.3.0@dev"
+			"phpbb/phpbb": ">=3.2.0-RC2,<=3.3.0"
 		}
 	}
 }

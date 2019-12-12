@@ -1,4 +1,4 @@
-<!-- IF S_VIEWTOPIC and S_TRASHBIN -->
-	<li> <a href="{U_TRASHBIN}" role="menuitem"> <i class="icon fa-cogs fa-fw" aria-hidden="true"></i>
-	<span>{L_TRASHBIN}</span></a></li>
-<!-- ENDIF -->
+{% if S_VIEWTOPIC and S_TRASHBIN %}
+	<li> <a href="{{ U_TRASHBIN }}" role="menuitem"> <i class="icon fa-cogs fa-fw" aria-hidden="true"></i>
+	<span>{{ lang('TRASHBIN') }}</span></a></li>
+{% endif %}

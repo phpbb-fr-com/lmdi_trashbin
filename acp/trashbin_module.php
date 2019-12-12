@@ -17,12 +17,12 @@ class trashbin_module {
 
 	public function main ($id, $mode)
 	{
-		global $db, $user, $template, $request, $config;
+		global $db, $language, $template, $request, $config;
 
-		$user->add_lang_ext ('lmdi/trashbin', 'trashbin');
+		$language->add_lang('trashbin', 'lmdi/trashbin');
 
 		$this->tpl_name = 'acp_trashbin_body';
-		$this->page_title = $user->lang('ACP_TRASHBIN_TITLE');
+		$this->page_title = $language->lang('ACP_TRASHBIN_TITLE');
 
 		$action = $request->variable ('action', '');
 		$action_config = $this->u_action . "&amp;action=config";
@@ -58,8 +58,7 @@ class trashbin_module {
 					WHERE forum_id = ' . (int) $target;
 				$db->sql_query($sql);
 				$config->set ('lmdi_trashbin', $target);
-				$message = $user->lang['CONFIG_UPDATED'];
-				trigger_error($message . adm_back_link ($this->u_action));
+				trigger_error($language->lang('CONFIG_UPDATED') . adm_back_link ($this->u_action));
 			}
 		}
 
