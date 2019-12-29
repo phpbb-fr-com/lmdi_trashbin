@@ -104,7 +104,6 @@ class listener implements EventSubscriberInterface
 
 	public function move_topic($event)
 	{
-		// var_dump ($event);
 		$this->fid = $event['forum_id'];
 		$this->tid = $event['topic_id'];
 		$trash = $this->request->variable('trash', 0);
@@ -132,15 +131,16 @@ class listener implements EventSubscriberInterface
 						WHERE topic_id=' . (int) $this->tid;
 					$this->db->sql_query($sql);
 
-					// Creation of a post with same subject, date = today to keep the topic alive
+					// Creation of a post with same subject line, date = today to keep the topic alive
+					$uid = $bitfield = $options = '';
 					$topic_data = $event['topic_data'];
 					$forum_name = $topic_data['forum_name'];
-					$post_text = sprintf ($this->language->lang('TRASHBIN_TEXT'), $forum_name);
-					$subject = utf8_normalize_nfc($topic_data['topic_title']);
-					$text = utf8_normalize_nfc($post_text);
-					$uid = $bitfield = $options = '';
+					$subject = $topic_data['topic_title'];
 					generate_text_for_storage($subject, $uid, $bitfield, $options, false, false, false);
-					generate_text_for_storage($text, $uid, $bitfield, $options, true, true, true);
+					$subject = str_replace ('<t>', '', $subject);
+					$subject = str_replace ('</t>', '', $subject);
+					$post_text = $this->language->lang('TRASHBIN_TEXT', $forum_name);
+					generate_text_for_storage($post_text, $uid, $bitfield, $options, true, true, true);
 					$data = array(
 						'forum_id'		=> $this->fid,
 						'topic_id'		=> $this->tid,
@@ -149,8 +149,8 @@ class listener implements EventSubscriberInterface
 						'enable_smilies'	=> true,
 						'enable_urls'		=> true,
 						'enable_sig'		=> true,
-						'message'			=> $text,
-						'message_md5'		=> md5($text),
+						'message'			=> $post_text,
+						'message_md5'		=> md5($post_text),
 						'bbcode_bitfield'	=> $bitfield,
 						'bbcode_uid'		=> $uid,
 						'post_edit_locked'	=> 0,

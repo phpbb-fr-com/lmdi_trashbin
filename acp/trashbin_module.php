@@ -11,9 +11,6 @@ namespace lmdi\trashbin\acp;
 class trashbin_module {
 
 	public $u_action;
-	protected $action;
-	public $tpl_name;
-	public $page_title;
 
 	public function main ($id, $mode)
 	{
@@ -79,7 +76,8 @@ class trashbin_module {
 			}
 		}
 
-		$sql = 'SELECT * FROM ' . FORUMS_TABLE . ' WHERE forum_id = ' . (int) $target;
+		$sql = 'SELECT * FROM ' . FORUMS_TABLE . '
+			WHERE forum_id = ' . (int) $target;
 		$result = $db->sql_query($sql);
 		$forum = $db->sql_fetchrow ($result);
 		$template->assign_vars (array(
