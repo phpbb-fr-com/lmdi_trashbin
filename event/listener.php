@@ -2,7 +2,7 @@
 /**
 *
 * @package phpBB Extension - LMDI Trashbin
-* @copyright (c) 2016-2019 LMDI - Pierre Duhem
+* @copyright (c) 2016-2021 LMDI - Pierre Duhem
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
@@ -110,6 +110,7 @@ class listener implements EventSubscriberInterface
 		if ($trash)
 		{
 			$user_id = $this->user->data['user_id'];
+			$user_name = $this->user->data['username'];
 			$target = $this->config['lmdi_trashbin'];
 			// Trashbin already configured and we aren't within this forum
 			if ($target != 0 && $this->fid != $target)
@@ -131,7 +132,8 @@ class listener implements EventSubscriberInterface
 						WHERE topic_id=' . (int) $this->tid;
 					$this->db->sql_query($sql);
 
-					// Creation of a post with same subject line, date = today to keep the topic alive
+					// Creation of a post (with same subject line and date = today)
+					// to keep the topic alive
 					$uid = $bitfield = $options = '';
 					$topic_data = $event['topic_data'];
 					$forum_name = $topic_data['forum_name'];
@@ -139,7 +141,7 @@ class listener implements EventSubscriberInterface
 					generate_text_for_storage($subject, $uid, $bitfield, $options, false, false, false);
 					$subject = str_replace ('<t>', '', $subject);
 					$subject = str_replace ('</t>', '', $subject);
-					$post_text = $this->language->lang('TRASHBIN_TEXT', $forum_name);
+					$post_text = $this->language->lang('TRASHBIN_TEXT', $user_name, $forum_name);
 					generate_text_for_storage($post_text, $uid, $bitfield, $options, true, true, true);
 					$data = array(
 						'forum_id'		=> $this->fid,
@@ -190,6 +192,7 @@ class listener implements EventSubscriberInterface
 				}
 			}
 		}
-	}
+	}	//move_topic
+
 
 }
