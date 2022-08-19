@@ -3,11 +3,11 @@
 	"type": "phpbb-extension",
 	"description": "Trashbin for phpBB 3.2",
 	"homepage": "https://www.insecte.org/ext/readme.txt",
-	"version": "1.2.5",
-	"time": "2022-11-30",
-	"license": "GPL-2.0-only-only",
-	"authors": 
-	[	
+	"version": "1.3.0",
+	"time": "2021-1-1",
+	"license": "GPL-2.0-only",
+	"authors":
+	[
 		{
 			"name": "Pierre Duhem",
 			"email": "pierre@duhem.com",
@@ -17,12 +17,12 @@
 		{
 			"name": "brunino",
 			"email": "brunino@altervista.org",
-			"homepage": "https://www.phpbbrevolution.6te.net",
+			"homepage": "http://www.phpbbrevolution.6te.net",
 			"role": "Developer of a former version"
 		}
 	],
 	"require": {
-		"php": ">=5.3.3"
+		"php": ">=7.1.3"
 	},
 	"require-dev": {
 		"phpbb/epv": "dev-master"
@@ -30,7 +30,7 @@
 	"extra": {
 		"display-name": "LMDI Trashbin",
 		"soft-require": {
-			"phpbb/phpbb": ">=3.2.0-RC2,<=3.3.0"
+			"phpbb/phpbb": ">=3.3.0,<=3.4.0@dev"
 		}
 	}
 }
