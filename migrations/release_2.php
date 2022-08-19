@@ -45,9 +45,9 @@ class release_2 extends \phpbb\db\migration\migration
 
 	public function reset_pruning_state()
 	{
-		$sql = 'UPDATE '. FORUMS_TABLE . '
+		$sql = 'UPDATE ' . FORUMS_TABLE . '
 			SET enable_prune=DEFAULT  
-			WHERE forum_id='. (int) self::$lmdi_trashbin;
+			WHERE forum_id=' . (int) self::$lmdi_trashbin;
 		$this->db->sql_query($sql);
 	}
 

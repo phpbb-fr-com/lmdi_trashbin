@@ -1,5 +1,5 @@
 services:
-     lmdi.trashbin.listener:
+    lmdi.trashbin.listener:
         class: lmdi\trashbin\event\listener
         arguments:
             - '@dbal.conn'
