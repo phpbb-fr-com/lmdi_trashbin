@@ -20,6 +20,7 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge ($lang, array(
 	'TRASHBIN'		=> 'Forum-Papierkorb',
+	'TRASHBIN_LINK'	=> 'In den Papierkorb werfen',
 	'TRASHBIN_TEXT'	=> 'Das Thema wurde ins Papierkorb geworfen (Quelle: %s).',
 
 // ACP

@@ -18,7 +18,8 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge ($lang, array(
-	'TRASHBIN'	=> 'Board Trashbin',
+	'TRASHBIN'		=> 'Board Trashbin',
+	'TRASHBIN_LINK'	=> 'Move to trashbin',
 	'TRASHBIN_TEXT'	=> 'Topic moved to the trashbin (source forum : %s).',
 
 // ACP
