@@ -1,4 +1,4 @@
-# phpBB 3.1 Extension - LMDI Trashbin
+# phpBB 3.3 Extension - LMDI Trashbin
 
 ## Install
 
