@@ -18,7 +18,7 @@ if (empty($lang) || !is_array($lang))
 	$lang = array();
 }
 
-$lang = array_merge ($lang, array(
+$lang = array_merge($lang, array(
 	'TRASHBIN'		=> 'Forum-Papierkorb',
 	'TRASHBIN_TEXT'	=> 'Das Thema wurde vom %s ins Papierkorb geworfen (Quelle: %s).',
 

@@ -17,7 +17,7 @@ if (empty($lang) || !is_array($lang))
 	$lang = array();
 }
 
-$lang = array_merge ($lang, array(
+$lang = array_merge($lang, array(
 	'TRASHBIN'			=> 'Corbeille du forum',
 	'TRASHBIN_TEXT'		=> 'Sujet mis à la corbeille par %s (forum d’origine : %s).',
 

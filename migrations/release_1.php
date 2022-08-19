@@ -28,7 +28,7 @@ class release_1 extends \phpbb\db\migration\migration
 			array('module.add', array(
 				'acp',
 				'ACP_CAT_DOT_MODS',
-				'ACP_TRASHBIN_TITLE'
+				'ACP_TRASHBIN_TITLE',
 			)),
 			array('module.add', array(
 				'acp',
@@ -54,7 +54,7 @@ class release_1 extends \phpbb\db\migration\migration
 			array('module.remove', array(
 				'acp',
 				'ACP_CAT_DOT_MODS',
-				'ACP_TRASHBIN_TITLE'
+				'ACP_TRASHBIN_TITLE',
 			)),
 
 		);

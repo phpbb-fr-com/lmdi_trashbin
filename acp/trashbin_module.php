@@ -8,11 +8,12 @@
 
 namespace lmdi\trashbin\acp;
 
-class trashbin_module {
+class trashbin_module
+{
 
 	public $u_action;
 
-	public function main ($id, $mode)
+	public function main($id, $mode)
 	{
 		global $db, $language, $template, $request, $config;
 
@@ -21,7 +22,7 @@ class trashbin_module {
 		$this->tpl_name = 'acp_trashbin_body';
 		$this->page_title = $language->lang('ACP_TRASHBIN_TITLE');
 
-		$action = $request->variable ('action', '');
+		$action = $request->variable('action', '');
 		$action_config = $this->u_action . "&amp;action=config";
 
 		if ($action == 'config')
@@ -48,19 +49,19 @@ class trashbin_module {
 				$sql_ary = array(
 					'enable_prune'	=> $enable_prune,
 					'prune_days'	=> $prune_days,
-					'prune_freq'	=> $prune_freq
-					);
-				$sql = 'UPDATE '. FORUMS_TABLE . '
-					SET ' . $db->sql_build_array ('UPDATE', $sql_ary) . '
+					'prune_freq'	=> $prune_freq,
+				);
+				$sql = 'UPDATE ' . FORUMS_TABLE . '
+					SET ' . $db->sql_build_array('UPDATE', $sql_ary) . '
 					WHERE forum_id = ' . (int) $target;
 				$db->sql_query($sql);
-				$config->set ('lmdi_trashbin', $target);
-				trigger_error($language->lang('CONFIG_UPDATED') . adm_back_link ($this->u_action));
+				$config->set('lmdi_trashbin', $target);
+				trigger_error($language->lang('CONFIG_UPDATED') . adm_back_link($this->u_action));
 			}
 		}
 
 		$form_key = 'acp_trashbin_body';
-		add_form_key ($form_key);
+		add_form_key($form_key);
 
 		$target = $config['lmdi_trashbin'];
 		$forum_list = make_forum_select(false, false, true, true, true, false, true);
@@ -69,9 +70,9 @@ class trashbin_module {
 			if ($row['disabled'] == false)	// Avoid selecting categories
 			{
 				$template->assign_block_vars('forums', array(
-					'FORUM_NAME'	=> $row['forum_name'],
-					'FORUM_ID'	=> $row['forum_id'],
-					'SELECTED'	=> (($target == $row['forum_id']) ? " selected" : "")
+					'FORUM_NAME' => $row['forum_name'],
+					'FORUM_ID'   => $row['forum_id'],
+					'SELECTED'   => (($target == $row['forum_id']) ? " selected" : ""),
 				));
 			}
 		}
@@ -79,13 +80,13 @@ class trashbin_module {
 		$sql = 'SELECT * FROM ' . FORUMS_TABLE . '
 			WHERE forum_id = ' . (int) $target;
 		$result = $db->sql_query($sql);
-		$forum = $db->sql_fetchrow ($result);
-		$template->assign_vars (array(
-			'C_ACTION'		=> $action_config,
+		$forum = $db->sql_fetchrow($result);
+		$template->assign_vars(array(
+			'C_ACTION'			=> $action_config,
 			'S_PRUNE_ENABLE'	=> $forum['enable_prune'],
 			'PRUNE_DAYS'		=> $forum['prune_days'],
 			'PRUNE_FREQ'		=> $forum['prune_freq'],
-			));
+		));
 		$db->sql_freeresult($result);
 	}
 
