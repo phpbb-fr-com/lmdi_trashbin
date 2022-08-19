@@ -89,7 +89,6 @@ class listener implements EventSubscriberInterface
 			$url = append_sid($this->root_path . 'viewtopic.' . $this->phpEx, $params);
 			$this->template->assign_vars(array(
 				'U_TRASHBIN'	=> $url,
-				'L_TRASHBIN'	=> $this->language->lang('TRASHBIN'),
 				'S_TRASHBIN'	=> true,
 				));
 		}
