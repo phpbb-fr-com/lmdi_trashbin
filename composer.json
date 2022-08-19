@@ -1,7 +1,7 @@
 {
 	"name": "lmdi/trashbin",
 	"type": "phpbb-extension",
-	"description": "Trashbin for phpBB 3.2",
+	"description": "Trashbin for phpBB 3.3",
 	"homepage": "https://www.insecte.org/ext/readme.txt",
 	"version": "1.3.0",
 	"time": "2021-1-1",
