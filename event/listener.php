@@ -94,7 +94,7 @@ class listener implements EventSubscriberInterface
 
 	private function can_build_url()
 	{
-		return (int) $this->config['lmdi_trashbin'] !== $this->fid && $this->template->retrieve_var('S_VIEWTOPIC') && ($this->auth->acl_get('m_delete') || $this->auth->acl_get('m_move'));
+		return ((int) $this->config['lmdi_trashbin'] !== $this->fid) && $this->template->retrieve_var('S_VIEWTOPIC') && $this->auth->acl_get('m_move', $this->fid);
 	}
 
 	public function move_topic($event)
@@ -107,7 +107,7 @@ class listener implements EventSubscriberInterface
 			$target = (int) $this->config['lmdi_trashbin'];
 			// Trashbin already configured and we aren't within this forum
 			// Various permissions
-			if ($target !== 0 && $this->fid !== $target && ($this->auth->acl_get('m_delete') || $this->auth->acl_get('m_move')) && ($this->auth->acl_get('f_noapprove', $target) && $this->auth->acl_get('f_list', $target)))
+			if (($target !== 0) && ($this->fid !== $target) && $this->auth->acl_get('m_move', $this->fid) && $this->auth->acl_get('f_noapprove', $target) && $this->auth->acl_get('f_list', $target))
 			{
 				if (!function_exists('move_topics'))
 				{
