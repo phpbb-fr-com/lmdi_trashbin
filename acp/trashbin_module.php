@@ -40,8 +40,8 @@ class trashbin_module
 				{
 					// Reset the pruning status of old target
 					$sql = 'UPDATE ' . FORUMS_TABLE . '
-						SET enable_prune = 0 
-						WHERE forum_id = ' . (int) $otarget;
+						SET enable_prune=DEFAULT, prune_days=DEFAULT, prune_freq=DEFAULT
+						WHERE forum_id = ' . $otarget;
 					$db->sql_query($sql);
 				}
 				$enable_prune = $request->variable('enable_prune', 0);
