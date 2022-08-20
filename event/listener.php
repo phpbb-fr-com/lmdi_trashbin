@@ -131,7 +131,7 @@ class listener implements EventSubscriberInterface
 				$subject = $topic_data['topic_title'];
 				generate_text_for_storage($subject, $uid, $bitfield, $options, false, false, false);
 				$subject = str_replace(array('<t>', '</t>'), '', $subject);
-				$post_text = $this->language->lang('TRASHBIN_TEXT', $this->user->data['username'], $forum_name);
+				$post_text = $this->language->lang('TRASHBIN_TEXT', $forum_name);
 				generate_text_for_storage($post_text, $uid, $bitfield, $options, true, true, true);
 				$data = array(
 					'forum_id'         => $this->fid,
