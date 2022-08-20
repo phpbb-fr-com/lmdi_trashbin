@@ -1,7 +1,6 @@
 {% INCLUDE 'overall_header.html' %}
 
-<h1>{{ lang('ACP_TRASHBIN_TITLE') }}</h1>
-<p>{{ lang('ACP_TRASHBIN_SETTINGS') }}</p>
+<h1>{{ lang('ACP_TRASHBIN_TITLE') }} :: {{ lang('ACP_TRASHBIN_SETTINGS') }}</h1>
 
 <form id="acp_lexicon" method="post" action="{{ C_ACTION }}">
 <fieldset>
@@ -16,16 +15,16 @@
 <fieldset>
 	<legend>{{ lang('ACP_TRASHBIN_FORUM_PRUNE_SETTINGS') }}</legend>
 <dl>
-	<dt><label for="enable_prune">{{ lang('ACP_TRASHBIN_FORUM_AUTO_PRUNE') }}{{ lang('COLON') }}</label><br /><span>{{ lang('ACP_TRASHBIN_FORUM_AUTO_PRUNE_EXPLAIN') }}</span></dt>
+	<dt><label for="enable_prune">{{ lang('FORUM_AUTO_PRUNE') }}{{ lang('COLON') }}</label><br /><span>{{ lang('FORUM_AUTO_PRUNE_EXPLAIN') }}</span></dt>
 	<dd><label><input type="radio" class="radio" name="enable_prune" value="1"{% if S_PRUNE_ENABLE %} id="enable_prune" checked="checked"{% endif %} /> {{ lang('YES') }}</label>
 		<label><input type="radio" class="radio" name="enable_prune" value="0"{% if not S_PRUNE_ENABLE %} id="enable_prune" checked="checked"{% endif %} /> {{ lang('NO') }}</label></dd>
 </dl>
 <dl>
-	<dt><label for="prune_freq">{{ lang('ACP_TRASHBIN_AUTO_PRUNE_FREQ') }}{{ lang('COLON') }}</label><br /><span>{{ lang('ACP_TRASHBIN_AUTO_PRUNE_FREQ_EXPLAIN') }}</span></dt>
+	<dt><label for="prune_freq">{{ lang('AUTO_PRUNE_FREQ') }}{{ lang('COLON') }}</label><br /><span>{{ lang('AUTO_PRUNE_FREQ_EXPLAIN') }}</span></dt>
 	<dd><input type="number" id="prune_freq" name="prune_freq" value="{{ PRUNE_FREQ }}" min="0" max="9999" /> {{ lang('DAYS') }}</dd>
 </dl>
 <dl>
-	<dt><label for="prune_days">{{ lang('ACP_TRASHBIN_AUTO_PRUNE_DAYS') }}{{ lang('COLON') }}</label><br /><span>{{ lang('ACP_TRASHBIN_AUTO_PRUNE_DAYS_EXPLAIN') }}</span></dt>
+	<dt><label for="prune_days">{{ lang('AUTO_PRUNE_DAYS') }}{{ lang('COLON') }}</label><br /><span>{{ lang('AUTO_PRUNE_DAYS_EXPLAIN') }}</span></dt>
 	<dd><input type="number" id="prune_days" name="prune_days" value="{{ PRUNE_DAYS }}" min="0" max="9999" /> {{ lang('DAYS') }}</dd>
 </dl>
 </fieldset>
