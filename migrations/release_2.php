@@ -11,7 +11,7 @@ namespace lmdi\trashbin\migrations;
 
 class release_2 extends \phpbb\db\migration\migration
 {
-	static private $lmdi_trashbin = 0;
+	private $lmdi_trashbin = 0;
 
 	public function effectively_installed()
 	{
@@ -27,7 +27,7 @@ class release_2 extends \phpbb\db\migration\migration
 
 	public function update_data()
 	{
-		self::$lmdi_trashbin = $this->config['lmdi_trashbin'];
+		$this->lmdi_trashbin = (int) $this->config['lmdi_trashbin'];
 		return array(
 			array('config.add', array('lmdi_trashbin2', 0)),
 		);
@@ -46,8 +46,8 @@ class release_2 extends \phpbb\db\migration\migration
 	public function reset_pruning_state()
 	{
 		$sql = 'UPDATE ' . FORUMS_TABLE . '
-			SET enable_prune=DEFAULT  
-			WHERE forum_id=' . (int) self::$lmdi_trashbin;
+			SET enable_prune=DEFAULT, prune_days=DEFAULT, prune_freq=DEFAULT
+			WHERE forum_id=' . $this->lmdi_trashbin;
 		$this->db->sql_query($sql);
 	}
 
