@@ -29,4 +29,5 @@ $lang = array_merge($lang, [
 	'ACP_TRASHBIN_ALLOW_FEATURE'         => 'Zielforum auswählen',
 	'ACP_TRASHBIN_ALLOW_FEATURE_EXPLAIN' => 'Du kannst hier das Forum auswählen, das Ziel der Themen-Verlagerung sein wird.',
 	'ACP_TRASHBIN_FORUM_PRUNE_SETTINGS'  => 'Einstellungen zum Löschen des Papierkorbs',
+	'ACP_TRASHBIN_OPTIONS_NONE'          => 'Wählen Sie einen Papierkorb',
 ]);
