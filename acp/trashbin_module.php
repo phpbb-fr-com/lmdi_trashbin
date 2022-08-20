@@ -18,6 +18,7 @@ class trashbin_module
 		global $db, $language, $template, $request, $config;
 
 		$language->add_lang('trashbin', 'lmdi/trashbin');
+		$language->add_lang('acp/forums');
 
 		$this->tpl_name = 'acp_trashbin_body';
 		$this->page_title = $language->lang('ACP_TRASHBIN_TITLE');

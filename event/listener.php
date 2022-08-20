@@ -163,7 +163,7 @@ class listener implements EventSubscriberInterface
 				$this->db->sql_query($sql);
 
 				// Logging
-				$trashbin = $this->language->lang('TRASHBIN');
+				$trashbin = $this->language->lang('ACP_TRASHBIN_TITLE');
 				$this->phpbb_log->add('mod', $this->user->data['user_id'], $this->user->ip, 'LOG_MOVE', false,
 					array(
 						'forum_id' => $target,
