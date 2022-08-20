@@ -9,11 +9,7 @@
 		<dt><label for="forum">{{ lang('ACP_TRASHBIN_ALLOW_FEATURE') }}{{ lang('COLON') }}</label><br />
 		<span>{{ lang('ACP_TRASHBIN_ALLOW_FEATURE_EXPLAIN') }}</span></dt>
 		<dd>
-		<select name="forum" id="forum">
-			{% for forums in loops.forums %}
-				<option value="{{ forums.FORUM_ID }}"{{ forums.SELECTED }}>{{ forums.FORUM_NAME }}</option>
-			{% endfor %}
-		</select>
+		<select name="forum" id="forum">{{ S_FORUM_OPTIONS }}</select>
 		</dd>
 	</dl>
 </fieldset>

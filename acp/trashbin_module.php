@@ -1,10 +1,10 @@
 <?php
 /**
-* @package phpBB Extension - LMDI Trashbin
-* @copyright (c) 2019 Pierre Duhem - LMDI
-* @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
-*
-*/
+ * @package phpBB Extension - LMDI Trashbin
+ * @copyright (c) 2019 Pierre Duhem - LMDI
+ * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
+ *
+ */
 
 namespace lmdi\trashbin\acp;
 
@@ -47,9 +47,9 @@ class trashbin_module
 				$prune_freq = $request->variable('prune_freq', 0);
 				$prune_days = $request->variable('prune_days', 0);
 				$sql_ary = array(
-					'enable_prune'	=> $enable_prune,
-					'prune_days'	=> $prune_days,
-					'prune_freq'	=> $prune_freq,
+					'enable_prune' => $enable_prune,
+					'prune_days'   => $prune_days,
+					'prune_freq'   => $prune_freq,
 				);
 				$sql = 'UPDATE ' . FORUMS_TABLE . '
 					SET ' . $db->sql_build_array('UPDATE', $sql_ary) . '
@@ -65,29 +65,28 @@ class trashbin_module
 
 		$target = $config['lmdi_trashbin'];
 		$forum_list = make_forum_select(false, false, true, true, true, false, true);
-		foreach ($forum_list as $row)
+
+		// Build forum options
+		$s_forum_options = '';
+		foreach ($forum_list as $f_id => $f_row)
 		{
-			if ($row['disabled'] == false)	// Avoid selecting categories
-			{
-				$template->assign_block_vars('forums', array(
-					'FORUM_NAME' => $row['forum_name'],
-					'FORUM_ID'   => $row['forum_id'],
-					'SELECTED'   => (($target == $row['forum_id']) ? " selected" : ""),
-				));
-			}
+			$s_forum_options .= '<option value="' . $f_id . '"' . ($target == $f_row['forum_id'] ? ' selected' : '') . ($f_row['disabled'] ? ' disabled class="disabled-option"' : '') . '>' . $f_row['padding'] . $f_row['forum_name'] . '</option>';
 		}
+
+		$template->assign_vars(array(
+			'S_FORUM_OPTIONS'    => $s_forum_options,
+		));
 
 		$sql = 'SELECT * FROM ' . FORUMS_TABLE . '
 			WHERE forum_id = ' . (int) $target;
 		$result = $db->sql_query($sql);
 		$forum = $db->sql_fetchrow($result);
 		$template->assign_vars(array(
-			'C_ACTION'			=> $action_config,
-			'S_PRUNE_ENABLE'	=> $forum['enable_prune'],
-			'PRUNE_DAYS'		=> $forum['prune_days'],
-			'PRUNE_FREQ'		=> $forum['prune_freq'],
+			'C_ACTION'       => $action_config,
+			'S_PRUNE_ENABLE' => $forum['enable_prune'],
+			'PRUNE_DAYS'     => $forum['prune_days'],
+			'PRUNE_FREQ'     => $forum['prune_freq'],
 		));
 		$db->sql_freeresult($result);
 	}
-
 }
