@@ -94,7 +94,13 @@ class listener implements EventSubscriberInterface
 
 	private function can_build_url()
 	{
-		return ((int) $this->config['lmdi_trashbin'] !== $this->fid) && $this->template->retrieve_var('S_VIEWTOPIC') && $this->auth->acl_get('m_move', $this->fid);
+		$checks = [
+			!empty($this->config['lmdi_trashbin']),
+			(int) $this->config['lmdi_trashbin'] !== (int) $this->fid,
+			(bool) $this->template->retrieve_var('S_VIEWTOPIC'),
+			(bool) $this->auth->acl_get('m_move', $this->fid),
+		];
+		return array_product($checks);
 	}
 
 	public function move_topic($event)

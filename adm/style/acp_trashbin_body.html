@@ -8,7 +8,10 @@
 		<dt><label for="forum">{{ lang('ACP_TRASHBIN_ALLOW_FEATURE') }}{{ lang('COLON') }}</label><br />
 		<span>{{ lang('ACP_TRASHBIN_ALLOW_FEATURE_EXPLAIN') }}</span></dt>
 		<dd>
-		<select name="forum" id="forum">{{ S_FORUM_OPTIONS }}</select>
+		<select name="forum" id="forum">
+			<option value="">{{ lang('ACP_TRASHBIN_OPTIONS_NONE') }}</option>
+			{{ S_FORUM_OPTIONS }}
+		</select>
 		</dd>
 	</dl>
 </fieldset>

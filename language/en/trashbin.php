@@ -28,4 +28,5 @@ $lang = array_merge($lang, [
 	'ACP_TRASHBIN_ALLOW_FEATURE'         => 'Target forum selection',
 	'ACP_TRASHBIN_ALLOW_FEATURE_EXPLAIN' => 'You may select the forum used as a target of the topic move.',
 	'ACP_TRASHBIN_FORUM_PRUNE_SETTINGS'  => 'Trashbin prune settings',
+	'ACP_TRASHBIN_OPTIONS_NONE'          => 'Select a trashbin',
 ]);
