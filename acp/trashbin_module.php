@@ -10,7 +10,6 @@ namespace lmdi\trashbin\acp;
 
 class trashbin_module
 {
-
 	public $u_action;
 
 	public function main($id, $mode)
@@ -75,19 +74,22 @@ class trashbin_module
 		}
 
 		$template->assign_vars(array(
-			'S_FORUM_OPTIONS'    => $s_forum_options,
+			'S_FORUM_OPTIONS' => $s_forum_options,
 		));
 
-		$sql = 'SELECT * FROM ' . FORUMS_TABLE . '
-			WHERE forum_id = ' . (int) $target;
-		$result = $db->sql_query($sql);
-		$forum = $db->sql_fetchrow($result);
-		$template->assign_vars(array(
-			'C_ACTION'       => $action_config,
-			'S_PRUNE_ENABLE' => $forum['enable_prune'],
-			'PRUNE_DAYS'     => $forum['prune_days'],
-			'PRUNE_FREQ'     => $forum['prune_freq'],
-		));
-		$db->sql_freeresult($result);
+		if ($target)
+		{
+			$sql = 'SELECT * FROM ' . FORUMS_TABLE . '
+					WHERE forum_id = ' . (int) $target;
+			$result = $db->sql_query($sql);
+			$forum = $db->sql_fetchrow($result);
+			$template->assign_vars(array(
+				'C_ACTION'       => $action_config,
+				'S_PRUNE_ENABLE' => $forum['enable_prune'],
+				'PRUNE_DAYS'     => $forum['prune_days'],
+				'PRUNE_FREQ'     => $forum['prune_freq'],
+			));
+			$db->sql_freeresult($result);
+		}
 	}
 }
